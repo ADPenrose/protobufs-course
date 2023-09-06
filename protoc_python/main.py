@@ -66,9 +66,11 @@ def file(message):
     with open(path, "rb") as f:
         t = type(message)
         # We need to init the object to be able to acces the FromString method, and to do that,
-        # we obtain its type, and then call it as a function.
+        # we obtain its type, and then call it as a function. We don't use the ParseFromString
+        # method because the object was not defined explicitely. So we cannot store the data
+        # inside of it.
         message2 = t().FromString(f.read())
-    print(message2)
+        print(message2)
 
 
 # From protobuf to JSON
@@ -90,8 +92,9 @@ if __name__ == "__main__":
     # print(enums())
     # print(oneofs())
     # print(maps())
-    # file(simple())
+    file(simple())
     # json_str = to_json(complex())
     # print(json_str)
     # print(from_json(json_str, complex_pb2.Complex))
-    print(from_json('{"id": 42, "unknown": "test"}', simple_pb2.Simple))
+    # print(from_json('{"id": 42, "unknown": "test"}', simple_pb2.Simple))
+    pass
