@@ -1,0 +1,10 @@
+// Separate files with imports
+syntax = "proto3";
+
+package my.city;
+
+message City {
+    string city_name = 1;
+    uint32 zip_code = 2;
+    string country_name = 3;
+}

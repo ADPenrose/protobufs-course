@@ -1,0 +1,10 @@
+// Separate files with imports
+syntax = "proto3";
+
+import "basics_2/practice_v4/practice_2_v4_street.proto";
+
+message Building {
+    string building_name = 1;
+    uint32 building_number = 2;
+    my.street.Street street = 3;
+}

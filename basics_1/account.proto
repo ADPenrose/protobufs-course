@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+// Defining an enum
+enum EyeColor {
+    EYE_COLOR_UNSPECIFIED = 0;
+    EYE_COLOR_GREEN = 1;
+    EYE_COLOR_BLUE = 2;
+    EYE_COLOR_BROWN = 3;
+}
+
+/* Account
+    Used to identify someone in our system
+*/
+message Account {
+    // We don't want negative values, so we use:
+    uint32 id = 1;
+    string name = 2;
+    // We can encode an image in bytes. In this case, it is in JPEG format
+    bytes thumbnail = 3;
+    bool is_verified = 4;
+    float height = 5;
+    // Defining a list
+    repeated string phones = 6;
+    // Using an enum
+    EyeColor eye_color = 7;
+}
