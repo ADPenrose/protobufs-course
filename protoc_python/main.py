@@ -1,3 +1,6 @@
+# Needed to read and write to JSON
+import google.protobuf.json_format as json_format
+
 import proto.simple_pb2 as simple_pb2
 import proto.complex_pb2 as complex_pb2
 import proto.enumerations_pb2 as enumerations_pb2
@@ -51,9 +54,44 @@ def maps():
     print(message)
 
 
+def file(message):
+    path = "simple.bin"
+    print("Write to file")
+    print(message)
+    with open(path, "wb") as f:
+        bytes_as_str = message.SerializeToString()
+        f.write(bytes_as_str)
+
+    print("Read from file")
+    with open(path, "rb") as f:
+        t = type(message)
+        # We need to init the object to be able to acces the FromString method, and to do that,
+        # we obtain its type, and then call it as a function.
+        message2 = t().FromString(f.read())
+    print(message2)
+
+
+# From protobuf to JSON
+def to_json(message):
+    return json_format.MessageToJson(
+        message, indent=2, preserving_proto_field_name=True
+    )
+
+
+# From JSON to protobuf
+def from_json(json_str, type):
+    # We use the type funcion to achieve the same functionality seen on the "read from file" in binary.
+    return json_format.Parse(json_str, type(), ignore_unknown_fields=True)
+
+
 if __name__ == "__main__":
     # print(simple())
     # print(complex())
     # print(enums())
     # print(oneofs())
-    print(maps())
+    # print(maps())
+    # file(simple())
+    # json_str = to_json(complex())
+    # print(json_str)
+    # print(from_json(json_str, complex_pb2.Complex))
+    print(from_json('{"id": 42, "unknown": "test"}', simple_pb2.Simple))
